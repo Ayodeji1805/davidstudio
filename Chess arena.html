@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pro Chess: Hard AI + Checkmate</title>
+    <style>
+        :root { --gold: #f1c40f; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            background: #1a1a1a; 
+            color: white; 
+            margin: 0; padding: 20px;
+        }
+        #status { 
+            font-size: 24px; 
+            margin-bottom: 15px; 
+            font-weight: bold;
+        }
+        #chessboard { 
+            width: 560px; height: 560px; 
+            display: grid; 
+            grid-template-columns: repeat(8, 1fr); 
+            border: 12px solid #333; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+        .square { 
+            width: 70px; height: 70px; 
+            display: flex; justify-content: center; align-items: center; 
+            font-size: 48px; cursor: pointer; user-select: none;
+        }
+        .white-sq { background-color: #f0d9b5; }
+        .black-sq { background-color: #b58863; }
+        .selected { background-color: #7b61ff !important; }
+        .piece-white { color: #fff; text-shadow: 2px 2px 4px #000; }
+        .piece-black { color: #111; text-shadow: 1px 1px 2px #fff; }
+    </style>
+</head>
+<body>
+<div id="status">White's Turn (You)</div>
+<div id="chessboard"></div>
+<button onclick="resetGame()" style="margin-top:15px;padding:10px 20px;font-size:16px;">New Game</button>
+
+<script>
+    const pieceSymbols = {'r':'♜','n':'♞','b':'♝','q':'♛','k':'♚','p':'♟','R':'♖','N':'♘','B':'♗','Q':'♕','K':'♔','P':'♙'};
+    const pieceValue = {'p':100, 'n':320, 'b':330, 'r':500, 'q':900, 'k':20000};
+
+    let boardState = [], selected = null, isWhiteTurn = true, gameActive = true;
+
+    function resetGame() {
+        boardState = [
+            ['r','n','b','q','k','b','n','r'],
+            ['p','p','p','p','p','p','p','p'],
+            ['','','','','','','',''],
+            ['','','','','','','',''],
+            ['','','','','','','',''],
+            ['','','','','','','',''],
+            ['P','P','P','P','P','P','P','P'],
+            ['R','N','B','Q','K','B','N','R']
+        ];
+        gameActive = true; isWhiteTurn = true; selected = null;
+        render(); updateStatus();
+    }
+
+    function isWhite(piece) { return piece === piece.toUpperCase(); }
+
+    // === IMPROVED CHECKMATE / STALEMATE DETECTOR ===
+    function isInCheck(white) {
+        let kR = -1, kC = -1;
+        for(let r=0; r<8; r++) for(let c=0; c<8; c++) {
+            if(boardState[r][c] === (white ? 'K' : 'k')) { kR=r; kC=c; }
+        }
+        for(let r=0; r<8; r++) for(let c=0; c<8; c++) {
+            const p = boardState[r][c];
+            if(p && isWhite(p) !== white) {
+                if(isMoveLegal(r, c, kR, kC, boardState, true)) return true;
+            }
+        }
+        return false;
+    }
+
+    function hasLegalMoves(white) {
+        for(let r=0; r<8; r++) for(let c=0; c<8; c++) {
+            const p = boardState[r][c];
+            if(p && isWhite(p) === white) {
+                for(let tr=0; tr<8; tr++) for(let tc=0; tc<8; tc++) {
+                    if(isMoveLegal(r, c, tr, tc)) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function checkGameState() {
+        const inCheck = isInCheck(isWhiteTurn);
+        const hasMoves = hasLegalMoves(isWhiteTurn);
+
+        if(!hasMoves) {
+            gameActive = false;
+            if(inCheck) {
+                document.getElementById('status').innerHTML = `CHECKMATE! ${isWhiteTurn ? "Black" : "White"} Wins!`;
+            } else {
+                document.getElementById('status').innerText = "STALEMATE - Draw";
+            }
+            return true;
+        }
+        return false;
+    }
+
+    // === HARDER AI (with 3 second thinking) ===
+    function evaluateBoard() {
+        let score = 0;
+        for(let r=0; r<8; r++) {
+            for(let c=0; c<8; c++) {
+                const p = boardState[r][c];
+                if(!p) continue;
+                const val = pieceValue[p.toLowerCase()] || 0;
+                score += isWhite(p) ? -val : val;
+
+                // Center control bonus
+                if((r===3 || r===4) && (c===3 || c===4)) score += isWhite(p) ? -10 : 10;
+            }
+        }
+        return score;
+    }
+
+    function makeAIMove() {
+        if(!gameActive || isWhiteTurn) return;
+
+        document.getElementById('status').innerText = "Black is thinking... (3s)";
+
+        setTimeout(() => {
+            let bestMove = null;
+            let bestScore = -Infinity;
+
+            for(let r=0; r<8; r++) {
+                for(let c=0; c<8; c++) {
+                    const p = boardState[r][c];
+                    if(p && !isWhite(p)) {
+                        for(let tr=0; tr<8; tr++) {
+                            for(let tc=0; tc<8; tc++) {
+                                if(isMoveLegal(r, c, tr, tc)) {
+                                    const backup = boardState[tr][tc];
+                                    boardState[tr][tc] = p;
+                                    boardState[r][c] = '';
+
+                                    let score = evaluateBoard();
+
+                                    // Capture bonus + random small variation
+                                    if(backup) score += pieceValue[backup.toLowerCase()] * 1.2;
+
+                                    // Undo
+                                    boardState[r][c] = p;
+                                    boardState[tr][tc] = backup;
+
+                                    if(score > bestScore) {
+                                        bestScore = score;
+                                        bestMove = {fromR:r, fromC:c, toR:tr, toC:tc};
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(bestMove) {
+                boardState[bestMove.toR][bestMove.toC] = boardState[bestMove.fromR][bestMove.fromC];
+                boardState[bestMove.fromR][bestMove.fromC] = '';
+                isWhiteTurn = true;
+                render();
+                if(!checkGameState()) updateStatus();
+            }
+        }, 3000);
+    }
+
+    function wouldBeInCheck(fR, fC, tR, tC, whiteMoving) {
+        let tempBoard = boardState.map(row => [...row]);
+        tempBoard[tR][tC] = tempBoard[fR][fC];
+        tempBoard[fR][fC] = '';
+
+        let kR=-1, kC=-1;
+        for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+            if(tempBoard[r][c]===(whiteMoving?'K':'k')){kR=r;kC=c;}
+        }
+
+        for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+            const p = tempBoard[r][c];
+            if(p && isWhite(p) !== whiteMoving){
+                if(isMoveLegal(r,c,kR,kC,tempBoard,true)) return true;
+            }
+        }
+        return false;
+    }
+
+    function isMoveLegal(fR, fC, tR, tC, board = boardState, dryRun = false) {
+        const p = board[fR][fC];
+        if(!p) return false;
+        const target = board[tR][tC];
+        if(target && isWhite(p) === isWhite(target)) return false;
+
+        const dr = tR-fR, dc = tC-fC;
+        const type = p.toLowerCase();
+        let possible = false;
+
+        if(type==='p'){
+            const dir = isWhite(p)?-1:1;
+            const start = isWhite(p)?6:1;
+            possible = (dc===0 && !target && (dr===dir || (dr===2*dir && fR===start && !board[fR+dir][fC]))) ||
+                       (Math.abs(dc)===1 && dr===dir && target);
+        }
+        else if(type==='r') possible = (dr===0||dc===0) && clearPath(fR,fC,tR,tC,board);
+        else if(type==='b') possible = Math.abs(dr)===Math.abs(dc) && clearPath(fR,fC,tR,tC,board);
+        else if(type==='q') possible = (dr===0||dc===0||Math.abs(dr)===Math.abs(dc)) && clearPath(fR,fC,tR,tC,board);
+        else if(type==='n') possible = (Math.abs(dr)===2&&Math.abs(dc)===1)||(Math.abs(dr)===1&&Math.abs(dc)===2);
+        else if(type==='k') possible = Math.abs(dr)<=1 && Math.abs(dc)<=1;
+
+        if(possible && !dryRun) return !wouldBeInCheck(fR,fC,tR,tC,isWhite(p));
+        return possible;
+    }
+
+    function clearPath(fR,fC,tR,tC,board){
+        const sR = Math.sign(tR-fR), sC = Math.sign(tC-fC);
+        let r=fR+sR, c=fC+sC;
+        while(r!==tR || c!==tC){
+            if(board[r][c]!=='') return false;
+            r+=sR; c+=sC;
+        }
+        return true;
+    }
+
+    function handleClick(r,c){
+        if(!gameActive || !isWhiteTurn) return;
+
+        if(selected){
+            if(isMoveLegal(selected[0],selected[1],r,c)){
+                boardState[r][c] = boardState[selected[0]][selected[1]];
+                boardState[selected[0]][selected[1]] = '';
+                isWhiteTurn = false;
+                render();
+                if(!checkGameState()){
+                    updateStatus();
+                    makeAIMove();
+                }
+            }
+            selected = null;
+        } else if(boardState[r][c] && isWhite(boardState[r][c])){
+            selected = [r,c];
+        }
+        render();
+    }
+
+    function updateStatus(){
+        document.getElementById('status').innerText = isWhiteTurn ? "White's Turn (You)" : "Black's Turn";
+    }
+
+    function render(){
+        const board = document.getElementById('chessboard');
+        board.innerHTML = '';
+        for(let r=0;r<8;r++){
+            for(let c=0;c<8;c++){
+                const sq = document.createElement('div');
+                sq.className = `square ${(r+c)%2?'black-sq':'white-sq'}`;
+                if(selected && selected[0]===r && selected[1]===c) sq.classList.add('selected');
+
+                const piece = boardState[r][c];
+                if(piece){
+                    const span = document.createElement('span');
+                    span.className = isWhite(piece)?'piece-white':'piece-black';
+                    span.innerText = pieceSymbols[piece];
+                    sq.appendChild(span);
+                }
+                sq.onclick = () => handleClick(r,c);
+                board.appendChild(sq);
+            }
+        }
+    }
+
+    resetGame();
+</script>
+</body>
+</html>

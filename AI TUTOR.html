@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Math App</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {
+  font-family: Arial;
+  background: #020617;
+  color: white;
+  text-align: center;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+}
+
+.section {
+  display: none;
+}
+
+.active {
+  display: block;
+}
+
+input, select, button {
+  padding: 10px;
+  margin: 5px;
+  width: 90%;
+  border-radius: 10px;
+  border: none;
+}
+
+.output {
+  background: #1e293b;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: left;
+}
+
+canvas {
+  background: white;
+  border-radius: 10px;
+}
+
+.nav button {
+  width: 30%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🧠 Smart Math App</h2>
+
+<!-- NAVIGATION -->
+<div class="nav">
+  <button onclick="show('tutor')">Tutor</button>
+  <button onclick="show('graph')">Graph</button>
+  <button onclick="show('currency')">₦ Converter</button>
+</div>
+
+<!-- 🧠 AI TUTOR -->
+<div id="tutor" class="section active">
+  <h3>AI Tutor 📚</h3>
+  <input type="text" id="input" placeholder="e.g 2x + 3x or 5+7">
+  <button onclick="solve()">Solve</button>
+  <div class="output" id="steps"></div>
+</div>
+
+<!-- 📊 GRAPH -->
+<div id="graph" class="section">
+  <h3>Graph Calculator 📊</h3>
+  <input type="text" id="func" placeholder="e.g x*x">
+  <button onclick="drawGraph()">Draw Graph</button>
+  <canvas id="chart" height="200"></canvas>
+</div>
+
+<!-- 💱 CURRENCY -->
+<div id="currency" class="section">
+  <h3>Naira Converter 💱</h3>
+  <input type="number" id="amount" placeholder="Amount">
+  <select id="currencyType">
+    <option value="USD">USD</option>
+    <option value="GBP">GBP</option>
+    <option value="EUR">EUR</option>
+  </select>
+  <button onclick="convertLive()">Convert</button>
+  <p id="result"></p>
+</div>
+
+</div>
+
+<script>
+// 🔁 NAVIGATION
+function show(section) {
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(section).classList.add("active");
+}
+
+// 🧠 AI TUTOR
+function solve() {
+  let exp = document.getElementById("input").value;
+  let steps = "";
+
+  if (exp.includes("x") && exp.includes("+")) {
+    let match = exp.match(/(\d*)x\s*\+\s*(\d*)x/);
+    if (match) {
+      let a = parseInt(match[1] || 1);
+      let b = parseInt(match[2] || 1);
+      let result = (a + b) + "x";
+
+      steps = `
+      <b>Step 1:</b> Identify like terms<br>
+      <b>Step 2:</b> Add coefficients → ${a} + ${b}<br>
+      <b>Final Answer:</b> ${result}
+      `;
+    }
+  } else {
+    try {
+      let result = Function('"use strict";return (' + exp + ')')();
+      steps = "Answer: <b>" + result + "</b>";
+    } catch {
+      steps = "❌ Error";
+    }
+  }
+
+  document.getElementById("steps").innerHTML = steps;
+}
+
+// 📊 GRAPH SECTION (SEPARATED)
+function drawGraph() {
+  let func = document.getElementById("func").value;
+
+  let x = [], y = [];
+
+  for (let i = -10; i <= 10; i++) {
+    x.push(i);
+    try {
+      y.push(Function("x", "return " + func)(i));
+    } catch {
+      y.push(null);
+    }
+  }
+
+  new Chart(document.getElementById("chart"), {
+    type: 'line',
+    data: {
+      labels: x,
+      datasets: [{
+        label: func,
+        data: y
+      }]
+    }
+  });
+}
+
+// 💱 NAIRA CONVERTER (SEPARATED)
+async function convertLive() {
+  let amt = document.getElementById("amount").value;
+  let cur = document.getElementById("currencyType").value;
+
+  try {
+    let res = await fetch(`https://api.exchangerate-api.com/v4/latest/${cur}`);
+    let data = await res.json();
+
+    let rate = data.rates["NGN"];
+    let result = amt * rate;
+
+    document.getElementById("result").innerText =
+      "₦ " + result.toLocaleString();
+
+  } catch {
+    document.getElementById("result").innerText = "❌ Network Error";
+  }
+}
+</script>
+
+</body>
+</html>
