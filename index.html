@@ -236,6 +236,22 @@ footer{
 }
 
 </style>
+
+    <!-- Force HTTPS redirect -->
+<script>
+  // Only redirect if not already on HTTPS and not on localhost (for development)
+  if (window.location.protocol !== 'https:' && 
+      window.location.hostname !== 'localhost' && 
+      window.location.hostname !== '127.0.0.1') {
+    
+    // Preserve path, query string, and hash
+    const httpsUrl = 'https://' + window.location.host + window.location.pathname + window.location.search + window.location.hash;
+    window.location.replace(httpsUrl);
+  }
+</script>
+
+<!-- Meta refresh fallback (works even if JS is disabled) -->
+<meta http-equiv="refresh" content="0; url=https://davidcyberstudio.com" />
 </head>
 
 <body>
