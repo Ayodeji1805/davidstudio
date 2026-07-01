@@ -1,391 +1,796 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Segun David Olowogbon | Young Coder & Author</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>David Cyber Studio 2026 • 2-Week Online Coding Bootcamp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+        
+        :root {
+            --primary: #0ea5e9;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-<style>
+        .hero-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
+        }
 
-:root{
-    --primary:#00bfff;
-    --dark:#0f172a;
-    --card:#1e293b;
-}
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    scroll-behavior:smooth;
-}
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #0ea5e9;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
 
-body{
-    font-family:'Poppins',sans-serif;
-    background:linear-gradient(135deg,#020617,#0f172a);
-    color:white;
-    padding-top:100px;
-}
-
-/* HEADER */
-
-header{
-    position:fixed;
-    top:0;
-    width:100%;
-    background:rgba(0,0,0,.92);
-    backdrop-filter:blur(10px);
-    z-index:1000;
-    border-bottom:1px solid rgba(0,191,255,.3);
-}
-
-nav{
-    max-width:1400px;
-    margin:auto;
-    padding:12px 20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-/* LOGO */
-
-.logo-container{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.logo{
-    width:60px;
-    height:60px;
-    border-radius:12px;
-    object-fit:cover;
-    box-shadow:0 0 20px #00bfff;
-}
-
-.logo-text{
-    font-family:'Orbitron',sans-serif;
-    color:#00bfff;
-    font-size:24px;
-    font-weight:700;
-}
-
-/* NAVIGATION */
-
-.nav-menu{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-}
-
-.nav-btn{
-    text-decoration:none;
-    color:white;
-    padding:10px 18px;
-    border-radius:30px;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.15);
-    transition:.3s;
-    font-weight:600;
-}
-
-.nav-btn:hover{
-    background:#00bfff;
-    color:black;
-    transform:translateY(-3px);
-    box-shadow:0 0 15px rgba(0,191,255,.7);
-}
-
-/* HERO */
-
-.hero{
-    min-height:85vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:50px 20px;
-}
-
-.hero-content{
-    max-width:800px;
-}
-
-.hero h1{
-    font-size:4rem;
-    margin-bottom:20px;
-}
-
-.badge{
-    display:inline-block;
-    background:#00bfff;
-    color:black;
-    padding:10px 25px;
-    border-radius:30px;
-    font-weight:bold;
-    margin-bottom:25px;
-}
-
-.hero p{
-    font-size:1.2rem;
-    margin-bottom:30px;
-}
-
-.button{
-    display:inline-block;
-    text-decoration:none;
-    background:#00bfff;
-    color:black;
-    padding:15px 30px;
-    border-radius:30px;
-    font-weight:bold;
-}
-
-/* SECTIONS */
-
-.section{
-    max-width:1200px;
-    margin:auto;
-    padding:80px 20px;
-}
-
-.section h2{
-    text-align:center;
-    color:#00bfff;
-    font-size:3rem;
-    margin-bottom:50px;
-}
-
-.about{
-    max-width:800px;
-    margin:auto;
-    text-align:center;
-}
-
-.about ul{
-    list-style:none;
-    margin-top:30px;
-}
-
-.about li{
-    margin:15px 0;
-    font-size:1.2rem;
-}
-
-.book-section{
-    display:flex;
-    flex-wrap:wrap;
-    gap:40px;
-    align-items:center;
-    justify-content:center;
-}
-
-.book-cover{
-    width:300px;
-    border-radius:20px;
-    box-shadow:0 0 25px rgba(0,191,255,.4);
-}
-
-.book-content{
-    max-width:500px;
-}
-
-/* FOOTER */
-
-footer{
-    background:black;
-    text-align:center;
-    padding:60px 20px;
-}
-
-.footer-links a{
-    display:inline-block;
-    margin:10px;
-    text-decoration:none;
-    background:#00bfff;
-    color:black;
-    padding:12px 20px;
-    border-radius:30px;
-    font-weight:bold;
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-    nav{
-        flex-direction:column;
-        gap:15px;
-    }
-
-    .hero h1{
-        font-size:2.5rem;
-    }
-
-    .logo{
-        width:50px;
-        height:50px;
-    }
-
-    .logo-text{
-        font-size:20px;
-    }
-
-}
-
-</style>
-
-    <!-- Force HTTPS redirect -->
-<script>
-  // Only redirect if not already on HTTPS and not on localhost (for development)
-  if (window.location.protocol !== 'https:' && 
-      window.location.hostname !== 'localhost' && 
-      window.location.hostname !== '127.0.0.1') {
-    
-    // Preserve path, query string, and hash
-    const httpsUrl = 'https://' + window.location.host + window.location.pathname + window.location.search + window.location.hash;
-    window.location.replace(httpsUrl);
-  }
-</script>
-
-<!-- Meta refresh fallback (works even if JS is disabled) -->
-<meta http-equiv="refresh" content="0; url=https://davidcyberstudio.com" />
+        .module {
+            transition: all 0.3s ease;
+        }
+    </style>
 </head>
+<body class="bg-zinc-950 text-zinc-200">
+    <!-- Navbar -->
+    <nav class="bg-zinc-900 border-b border-zinc-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-sky-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">D</div>
+                <div>
+                    <span class="heading-font text-2xl font-semibold tracking-tighter">David Cyber Studio </span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="about.html" class="nav-link">About</a>
+                <a href="curriculum.html" class="nav-link">Curriculum</a>
+                <a href="schedule.html" class="nav-link">Schedule</a>
+                <a href="instructors.html" class="nav-link">Instructors</a>
+                <a href="register.html" class="nav-link">Register</a>
+            </div>
+            
+            <a href="register.html" 
+               class="bg-sky-500 hover:bg-sky-600 transition-colors px-6 py-3 rounded-2xl font-semibold text-sm flex items-center gap-2">
+                <i class="fas fa-rocket"></i>
+                JOIN NOW
+            </a>
+        </div>
+    </nav>
 
-<body>
+    <!-- Hero -->
+    <header class="hero-bg pt-20 pb-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(at_50%_30%,rgba(14,165,233,0.15)_0%,transparent_70%)]"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-3xl text-sm">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    Next cohort starts July 27, 2026
+                </div>
+                
+                <h1 class="heading-font text-6xl md:text-7xl font-bold tracking-tighter leading-none">
+                    Master Coding in<br>Just <span class="text-sky-400">2 Weeks</span>
+                </h1>
+                
+                <p class="text-xl text-zinc-400 max-w-md">
+                    Hands-on online bootcamp for beginners. Build real projects. Get job-ready skills.
+                    Perfect for students, teachers, and aspiring developers.
+                </p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="register.html" 
+                       class="bg-white text-zinc-900 hover:bg-zinc-100 transition-colors px-8 py-4 rounded-3xl font-semibold flex items-center gap-3 text-lg">
+                        <i class="fas fa-play"></i>
+                        Enroll Today
+                    </a>
+                    <a href="curriculum.html" 
+                       class="border border-zinc-700 hover:border-zinc-400 transition-colors px-8 py-4 rounded-3xl font-medium flex items-center gap-3">
+                        View Curriculum
+                    </a>
+                </div>
+                
+                <div class="flex items-center gap-8 pt-4">
+                    <div>
+                        <div class="text-3xl font-semibold"></div>
+                        <div class="text-sm text-zinc-400"></div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-semibold">12</div>
+                        <div class="text-sm text-zinc-400">Projects built</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-semibold">99%</div>
+                        <div class="text-sm text-zinc-400">Completion rate</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative">
+                <div class="bg-zinc-900/70 backdrop-blur-xl border border-zinc-700 rounded-3xl p-8 shadow-2xl">
+                    <div class="aspect-video bg-zinc-950 rounded-2xl overflow-hidden mb-6 relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-20 h-20 bg-white/10 backdrop-blur rounded-2xl flex items-center justify-center">
+                                <i class="fas fa-play text-4xl text-white"></i>
+                            </div>
+                        </div>
+                        <img src="https://picsum.photos/id/1015/800/450" alt="Coding Session" 
+                             class="w-full h-full object-cover opacity-70">
+                    </div>
+                    <div class="text-center">
+                        <div class="text-emerald-400 text-sm font-medium flex items-center justify-center gap-2">
+                            <i class="fas fa-circle"></i> LIVE SESSION IN PROGRESS
+                        </div>
+                        <p class="text-zinc-400 mt-2">Day 3: Building your first interactive website</p>
+                    </div>
+                </div>
+                
+                <!-- Floating badges -->
+                <div class="absolute -top-6 -right-6 bg-zinc-900 border border-sky-500 text-sky-400 text-xs px-4 py-2 rounded-2xl flex items-center gap-2 shadow-xl">
+                    <i class="fas fa-certificate"></i>
+                    Certificate Awarded
+                </div>
+            </div>
+        </div>
+    </header>
 
-<header>
+    <!-- Trust bar -->
+    <div class="bg-zinc-900 py-6 border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-center items-center gap-x-12 gap-y-6 opacity-75">
+            <div class="flex items-center gap-3 text-sm font-medium">
+                <i class="fab fa-html5 text-3xl"></i>
+                <span>HTML</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm font-medium">
+                <i class="fab fa-css3-alt text-3xl"></i>
+                <span>CSS</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm font-medium">
+                <i class="fab fa-js text-3xl"></i>
+                <span>JavaScript</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm font-medium">
+                <span class="text-xl">React</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm font-medium">
+                <span class="text-xl">Tailwind</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm font-medium">
+                <span>Git & GitHub</span>
+            </div>
+        </div>
+    </div>
 
-<nav>
+    <!-- About -->
+    <section id="about" class="py-24 bg-zinc-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-12 gap-16 items-center">
+                <div class="md:col-span-5">
+                    <h2 class="heading-font text-5xl font-semibold tracking-tight">Why David Cyber Studio?</h2>
+                    <div class="h-1 w-16 bg-sky-500 mt-6"></div>
+                    
+                    <div class="mt-12 space-y-10">
+                        <div class="flex gap-6">
+                            <div class="w-12 h-12 bg-sky-500/10 text-sky-400 rounded-2xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-clock text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-xl">Intensive 2-Week Format</h4>
+                                <p class="text-zinc-400 mt-2">Daily live classes, recorded sessions, and hands-on projects. Learn faster with structure.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-6">
+                            <div class="w-12 h-12 bg-sky-500/10 text-sky-400 rounded-2xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-users text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-xl">Small Cohort Community</h4>
+                                <p class="text-zinc-400 mt-2">Connect with fellow learners, get help in dedicated Discord, and build together.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-6">
+                            <div class="w-12 h-12 bg-sky-500/10 text-sky-400 rounded-2xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-briefcase text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-xl">Portfolio Projects</h4>
+                                <p class="text-zinc-400 mt-2">Build a personal website, interactive game, and full-stack app to showcase.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-7">
+                    <div class="bg-zinc-900 rounded-3xl p-10 border border-zinc-800">
+                        <h3 class="text-2xl font-medium mb-8">What you'll walk away with</h3>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="space-y-6">
+                                <div class="flex items-start gap-4">
+                                    <i class="fas fa-check text-emerald-400 mt-1"></i>
+                                    <div>Strong fundamentals in HTML, CSS &amp; JavaScript</div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <i class="fas fa-check text-emerald-400 mt-1"></i>
+                                    <div>Modern responsive design with Tailwind CSS</div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <i class="fas fa-check text-emerald-400 mt-1"></i>
+                                    <div>Version control with Git &amp; GitHub</div>
+                                </div>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="flex items-start gap-4">
+                                    <i class="fas fa-check text-emerald-400 mt-1"></i>
+                                    <div>Interactive web applications</div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <i class="fas fa-check text-emerald-400 mt-1"></i>
+                                    <div>Deployment skills (GitHub Pages, Netlify)</div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <i class="fas fa-check text-emerald-400 mt-1"></i>
+                                    <div>Professional portfolio + certificate</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="logo-container">
-    <img src="logo.png" alt="Logo" class="logo">
-    <div class="logo-text">SEGUN DAVID</div>
-</div>
+    <!-- Curriculum -->
+<section id="curriculum" class="py-24 bg-zinc-900">
+<div class="max-w-7xl mx-auto px-6">
 
-<div class="nav-menu">
-    <a href="#about" class="nav-btn">About</a>
-    <a href="my book.html" class="nav-btn">Book</a>
-    <a href="my portolio.html" class="nav-btn">Portfolio</a>
-    <a href="DAVID BOOKS.html" class="nav-btn">Book Review</a>
-    <a href="myapps.html" class="nav-btn">Apps</a>
-    <a href="hire.html" class="nav-btn">Hire Me</a>
-</div>
+<div class="text-center mb-20">
 
-</nav>
+<span class="px-5 py-2 bg-sky-500/10 text-sky-400 rounded-3xl text-sm font-medium">
+14-DAY JOURNEY
+</span>
 
-</header>
+<h2 class="heading-font text-5xl font-semibold mt-6 tracking-tight">
+Young Coders Curriculum
+</h2>
 
-<section class="hero">
-
-<div class="hero-content">
-
-<h1>Segun David Olowogbon</h1>
-
-<div class="badge">
-Author • Coder • Freelancer
-</div>
-
-<p>
-I write books, build websites, design graphics,
-develop apps, and help businesses grow online.
+<p class="text-zinc-400 mt-4 max-w-2xl mx-auto">
+Learn HTML, CSS, JavaScript and GitHub through hands-on projects designed for beginners.
 </p>
 
-<a href="#about" class="button">
-Learn More
-</a>
+</div>
+
+
+
+<div class="grid lg:grid-cols-2 gap-10">
+
+<!-- Week 1 -->
+
+<div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-8">
+
+<div class="flex items-center gap-4 mb-8">
+
+<div class="w-12 h-12 rounded-2xl bg-amber-400 text-black flex items-center justify-center font-bold">
+
+1
 
 </div>
 
-</section>
+<div>
 
-<section class="section" id="about">
-
-<h2>About Me</h2>
-
-<div class="about">
-
-<p>
-I am a young tech creator passionate about coding,
-graphic design, web development, writing and freelancing.
-</p>
-
-<ul>
-<li>✅ Published my first children's book</li>
-<li>✅ Built websites and web applications</li>
-<li>✅ Skilled in coding and image editing</li>
-<li>✅ Freelancer and digital creator</li>
-</ul>
-
-<h3 style="margin-top:30px;">
-Start Small, Dream Big!
+<h3 class="text-3xl font-semibold">
+Week One
 </h3>
 
+<p class="text-zinc-400">
+HTML Foundations
+</p>
+
 </div>
 
-</section>
+</div>
 
-<section class="section">
 
-<h2>My First Book</h2>
+<div class="space-y-5">
 
-<div class="book-section">
+<div class="module bg-zinc-900 rounded-2xl p-5 flex gap-5">
 
-<img src="cc.jpg" class="book-cover">
+<div class="font-mono text-sky-400">
+D1
+</div>
 
-<div class="book-content">
+<div>
 
-<h3 style="color:#00bfff;font-size:2rem;">
-Start Small, Dream Big
+<div class="font-semibold">
+Introduction to Coding
+</div>
+
+<div class="text-sm text-zinc-500">
+How websites work • VS Code • HTML Basics
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="module bg-zinc-900 rounded-2xl p-5 flex gap-5">
+
+<div class="font-mono text-sky-400">
+D2
+</div>
+
+<div>
+
+<div class="font-semibold">
+HTML Elements
+</div>
+
+<div class="text-sm text-zinc-500">
+Headings • Paragraphs • Images • Links
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="module bg-zinc-900 rounded-2xl p-5 flex gap-5">
+
+<div class="font-mono text-sky-400">
+D3
+</div>
+
+<div>
+
+<div class="font-semibold">
+Forms & Tables
+</div>
+
+<div class="text-sm text-zinc-500">
+Inputs • Buttons • Tables • Registration Form
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="module bg-zinc-900 rounded-2xl p-5 flex gap-5">
+
+<div class="font-mono text-sky-400">
+D4
+</div>
+
+<div>
+
+<div class="font-semibold">
+Semantic HTML
+</div>
+
+<div class="text-sm text-zinc-500">
+Sections • Header • Footer • Accessibility
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="module bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-5 flex gap-5 text-black">
+
+<div class="font-bold">
+D5
+</div>
+
+<div>
+
+<div class="font-semibold">
+Mini Project
+</div>
+
+<div class="text-sm">
+Build Your Personal Website
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="module bg-zinc-900 rounded-2xl p-5 flex gap-5">
+
+<div class="font-mono text-sky-400">
+D6
+</div>
+
+<div>
+
+<div class="font-semibold">
+CSS Fundamentals
+</div>
+
+<div class="text-sm text-zinc-500">
+Colors • Fonts • Borders • Backgrounds
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="module bg-zinc-900 rounded-2xl p-5 flex gap-5">
+
+<div class="font-mono text-sky-400">
+D7
+</div>
+
+<div>
+
+<div class="font-semibold">
+Box Model & Layouts
+</div>
+
+<div class="text-sm text-zinc-500">
+Margin • Padding • Display • Positioning
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- Week 2 -->
+
+<div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-8">
+
+<div class="flex items-center gap-4 mb-8">
+
+<div class="w-12 h-12 rounded-2xl bg-violet-500 flex items-center justify-center font-bold">
+
+2
+
+</div>
+
+<div>
+
+<h3 class="text-3xl font-semibold">
+
+Week Two
+
 </h3>
 
-<p style="margin:20px 0;">
-A Child's Guide to Success
+<p class="text-zinc-400">
+
+CSS • JavaScript • GitHub
+
 </p>
-
-<p>
-An inspiring book that teaches children confidence,
-hard work and the importance of pursuing their dreams.
-</p>
-
-<br>
-
-<a href="my book.html" class="button">
-Visit Book Website
-</a>
 
 </div>
 
 </div>
 
+
+<div class="space-y-5">
+
+<div class="module bg-zinc-900 rounded-2xl p-5 flex gap-5">
+
+<div class="font-mono text-sky-400">
+
+D8
+
+</div>
+
+<div>
+
+<div class="font-semibold">
+
+Flexbox
+
+</div>
+
+<div class="text-sm text-zinc-500">
+
+Responsive Layouts • Navigation • Cards
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="module bg-zinc-900 rounded-2xl p-5 flex gap-5">
+
+<div class="font-mono text-sky-400">
+
+D9
+
+</div>
+
+<div>
+
+<div class="font-semibold">
+
+CSS Grid
+
+</div>
+
+<div class="text-sm text-zinc-500">
+
+Grid Systems • Portfolio Layouts
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="module bg-gradient-to-r from-sky-500 to-indigo-500 rounded-2xl p-5 flex gap-5">
+
+<div class="font-bold">
+
+D10
+
+</div>
+
+<div>
+
+<div class="font-semibold">
+
+Portfolio Project
+
+</div>
+
+<div class="text-sm">
+
+Build a Responsive Portfolio Website
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="module bg-zinc-900 rounded-2xl p-5 flex gap-5">
+
+<div class="font-mono text-sky-400">
+
+D11
+
+</div>
+
+<div>
+
+<div class="font-semibold">
+
+JavaScript Basics
+
+</div>
+
+<div class="text-sm text-zinc-500">
+
+Variables • Conditions • Loops
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="module bg-zinc-900 rounded-2xl p-5 flex gap-5">
+
+<div class="font-mono text-sky-400">
+
+D12
+
+</div>
+
+<div>
+
+<div class="font-semibold">
+
+Interactive Websites
+
+</div>
+
+<div class="text-sm text-zinc-500">
+
+DOM • Events • Animations
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="module bg-zinc-900 rounded-2xl p-5 flex gap-5">
+
+<div class="font-mono text-sky-400">
+
+D13
+
+</div>
+
+<div>
+
+<div class="font-semibold">
+
+GitHub Essentials
+
+</div>
+
+<div class="text-sm text-zinc-500">
+
+Repositories • Commits • Upload Projects
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="module bg-gradient-to-r from-violet-500 to-sky-500 rounded-2xl p-5 flex gap-5">
+
+<div class="font-bold">
+
+D14
+
+</div>
+
+<div>
+
+<div class="font-semibold">
+
+Deploy with GitHub Pages
+
+</div>
+
+<div class="text-sm">
+
+Publish Your Website Online
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- Bottom Stats -->
+
+<div class="grid md:grid-cols-4 gap-8 mt-20">
+
+<div class="bg-zinc-950 rounded-3xl p-8 text-center border border-zinc-800">
+
+<div class="text-5xl mb-4">
+🌐
+</div>
+
+<h4 class="text-xl font-semibold">
+7 Projects
+</h4>
+
+<p class="text-zinc-500 text-sm">
+Hands-on Coding
+</p>
+
+</div>
+
+
+
+<div class="bg-zinc-950 rounded-3xl p-8 text-center border border-zinc-800">
+
+<div class="text-5xl mb-4">
+🎨
+</div>
+
+<h4 class="text-xl font-semibold">
+HTML + CSS
+</h4>
+
+<p class="text-zinc-500 text-sm">
+Design Skills
+</p>
+
+</div>
+
+
+
+<div class="bg-zinc-950 rounded-3xl p-8 text-center border border-zinc-800">
+
+<div class="text-5xl mb-4">
+⚡
+</div>
+
+<h4 class="text-xl font-semibold">
+JavaScript
+</h4>
+
+<p class="text-zinc-500 text-sm">
+Interactive Websites
+</p>
+
+</div>
+
+
+
+<div class="bg-zinc-950 rounded-3xl p-8 text-center border border-zinc-800">
+
+<div class="text-5xl mb-4">
+🚀
+</div>
+
+<h4 class="text-xl font-semibold">
+GitHub Ready
+</h4>
+
+<p class="text-zinc-500 text-sm">
+Live Portfolio
+</p>
+
+</div>
+
+</div>
+
+</div>
 </section>
-
-<footer>
-
-<h2>Let's Work Together</h2>
-
-<p>
-Available for web development,
-graphic design and freelance projects.
-</p>
-
-<div class="footer-links">
-
-<a href="hire.html">Hire Me</a>
-<a href="myapps.html">My Apps</a>
-<a href="my portolio.html">Portfolio</a>
-<a href="DAVID BOOKS.html">Book Reviews</a>
-
-</div>
-
-<p style="margin-top:30px;">
-© 2026 Segun David Olowogbon<br>
- Nigeria
-</p>
-
-</footer>
-
 </body>
-</html>
+    </html>
