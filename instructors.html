@@ -1,124 +1,222 @@
-const chatSpace = document.getElementById('chatSpace');
-const userInput = document.getElementById('userInput');
-const sendBtn = document.getElementById('sendBtn');
-
-// ACTIVE ZERO-AUTH OPEN WEB DATA PIPELINE
-const PUBLIC_NEWS_API = "https://actually-relevant-api.onrender.com/api/stories";
-
-async function queryAnonAPI(userMessage) {
-    return new Promise(async (resolve) => {
-        let webDataSummary = "";
-
-        // 1. Kickoff the asynchronous Live Web Search Fetch immediately in the background
-        try {
-            const res = await fetch(PUBLIC_NEWS_API);
-            if (res.ok) {
-                const data = await res.json();
-                if (data && data.stories && data.stories.length > 0) {
-                    // Pull real data points matching the context or use recent live records
-                    const sampleStories = data.stories.slice(0, 2).map(s => `[Source: ${s.source}] ${s.title}: ${s.summary}`).join(" | ");
-                    webDataSummary = ` Live internet telemetry verified: ${sampleStories}`;
-                }
-            }
-        } catch (e) {
-            console.log("Search engines heavily rate-limited. Falling back to local raw data cluster.");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructors • David Cyber Studio  2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
         }
-
-        // 2. Strict 10-Second Thinking & UI Progression Sequence
-        const thinkingSteps = [
-            "Initializing deep search protocols...",
-            "Querying Google & DuckDuckGo indexing nodes...",
-            "Data retrieved. Accessing raw unindexed database tables...",
-            "Cross-referencing live internet telemetry with system knowledge...",
-            "Filtering anomalies and resolving prompt context...",
-            "Finalizing localized synthesis pipeline..."
-        ];
-
-        let stepIndex = 0;
-        // Update the thinking bubble text every 1.6 seconds to fill out the 10 seconds perfectly
-        const intervalId = setInterval(() => {
-            const labelElem = document.getElementById('thinking-label');
-            if (labelElem && stepIndex < thinkingSteps.length) {
-                labelElem.innerText = thinkingSteps[stepIndex];
-                stepIndex++;
-            }
-        }, 1600);
-
-        // 3. Complete the 10000ms delay before outputting the final response
-        setTimeout(() => {
-            clearInterval(intervalId);
-
-            // Construct dynamic intelligent responses injected with actual fetched data if available
-            const baseResponses = [
-                `Deep scan completed across index modules. Raw data online indicates optimal resolution paradigms are matching.${webDataSummary ? '\n\n' + webDataSummary : ''}`,
-                `Search clusters resolved. Datasets imply that the parameters provided match emerging public tracking vectors perfectly.${webDataSummary ? '\n\n' + webDataSummary : ''}`,
-                `ANON AI Node analysis finished. System matrix confirms correlation with real-time web telemetry indexes.${webDataSummary ? '\n\n' + webDataSummary : ''}`
-            ];
-
-            const finalReply = baseResponses[Math.floor(Math.random() * baseResponses.length)];
-            resolve(finalReply);
-        }, 10000); // 10000 milliseconds = Exactly 10 Seconds
-    });
-}
-
-// UI Event Handler Loop
-async function handleSend() {
-    const text = userInput.value.trim();
-    if (!text) return;
-
-    userInput.value = '';
-    appendMessage('user', text);
-
-    // Inject custom thinking indicator with dynamic text tracking
-    const typingElem = appendThinkingIndicator();
-    chatSpace.scrollTop = chatSpace.scrollHeight;
-
-    // Await the full 10 seconds evaluation & search response
-    const aiResponse = await queryAnonAPI(text);
-
-    typingElem.remove();
-    appendMessage('ai', aiResponse);
-    chatSpace.scrollTop = chatSpace.scrollHeight;
-}
-
-function appendMessage(sender, content) {
-    const msgDiv = document.createElement('div');
-    msgDiv.classList.add('message', sender);
-    let avatarHTML = sender === 'user' ? 'U' : `
-        <svg width="20" height="20" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="45" fill="none" stroke="#bd52eb" stroke-width="8"/>
-            <text x="50" y="62" font-weight="900" font-size="45" fill="#fff" text-anchor="middle">A</text>
-        </svg>`;
-
-    msgDiv.innerHTML = `
-        <div class="avatar">${avatarHTML}</div>
-        <div class="bubble" style="white-space: pre-wrap;">${content}</div>
-    `;
-    chatSpace.appendChild(msgDiv);
-}
-
-function appendThinkingIndicator() {
-    const typingDiv = document.createElement('div');
-    typingDiv.classList.add('message', 'ai');
-    typingDiv.innerHTML = `
-        <div class="avatar">
-            <svg width="20" height="20" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#bd52eb" stroke-width="8"/>
-                <text x="50" y="62" font-weight="900" font-size="45" fill="#fff" text-anchor="middle">A</text>
-            </svg>
+        .heading-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .instructor-card {
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 2);
+        }
+        .instructor-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgb(14 165 233 / 0.25);
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+    <!-- Navbar -->
+    <nav class="bg-zinc-900 border-b border-zinc-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-sky-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">D</div>
+                <div class="heading-font text-2xl font-semibold tracking-tighter">David Cyber Studio</div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="index.html" class="hover:text-sky-400 transition-colors">Home</a>
+                <a href="about.html" class="hover:text-sky-400 transition-colors">About</a>
+                <a href="curriculum.html" class="hover:text-sky-400 transition-colors">Curriculum</a>
+                <a href="#" class="text-sky-400 font-semibold">Instructors</a>
+                <a href="register.html" class="hover:text-sky-400 transition-colors">Register</a>
+            </div>
+            
+            <a href="register.html" 
+               class="bg-sky-500 hover:bg-sky-600 px-6 py-3 rounded-2xl font-semibold text-sm">
+                JOIN THE BOOTCAMP
+            </a>
         </div>
-        <div class="bubble">
-            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-style: italic;" id="thinking-label">Initializing deep search protocols...</div>
-            <div class="typing-indicator">
-                <span></span><span></span><span></span>
+    </nav>
+
+    <!-- Hero -->
+    <header class="bg-zinc-900 py-20">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <span class="inline-block px-5 py-2 bg-sky-500/10 text-sky-400 text-sm font-medium rounded-3xl mb-6">WORLD-CLASS EDUCATORS</span>
+            <h1 class="heading-font text-6xl font-bold tracking-tighter mb-6">Meet Your Instructors</h1>
+            <p class="max-w-2xl mx-auto text-xl text-zinc-400">
+                Learn directly from experienced software engineers, educators, and industry professionals who are passionate about teaching the next generation of developers.
+            </p>
+        </div>
+    </header>
+
+    <!-- Instructors Grid -->
+    <section class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                
+                <!-- Instructor 1 -->
+                <div class="instructor-card bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800">
+                    <div class="h-80 bg-zinc-800 relative">
+                        <img src="dave.jpeg" 
+                             alt="Adebayo Oladimeji" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-zinc-900 to-transparent h-32"></div>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-2xl font-semibold">Olowogbon David </h3>
+                                <p class="text-sky-400">Founder Of David Cyber Studio  </p>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex gap-1 text-amber-400">
+                                    ★★★★
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 space-y-4 text-sm">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-briefcase w-5 text-zinc-400"></i>
+                                <span> | 3+ years building scalable web apps</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-graduation-cap w-5 text-zinc-400"></i>
+                                <span>A student of Royal Wunderkind Model School </span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-chalkboard-teacher w-5 text-zinc-400"></i>
+                                <span> HTML CSS & JS </span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 pt-6 border-t border-zinc-800">
+                            <p class="text-zinc-400 text-sm italic">
+                                "I believe everyone can code. My goal is to make complex concepts simple and fun."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instructor 2 -->
+                <div class="instructor-card bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800">
+                    <div class="h-80 bg-zinc-800 relative">
+                        <img src="https://picsum.photos/id/201/600/800" 
+                             alt="Chinelo Okoro" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-zinc-900 to-transparent h-32"></div>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-2xl font-semibold">Crown Covenant</h3>
+                                <p class="text-sky-400"> A Html Programmer</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex gap-1 text-amber-400">
+                                    ★★★
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 space-y-4 text-sm">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-briefcase w-5 text-zinc-400"></i>
+                                <span> Programmer @ David Cyber Studio</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-graduation-cap w-5 text-zinc-400"></i>
+                                <span>A student of Royal Wunderkind Model School</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-chalkboard-teacher w-5 text-zinc-400"></i>
+                                <span> HTML+ modern CSS frameworks</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 pt-6 border-t border-zinc-800">
+                            <p class="text-zinc-400 text-sm italic">
+                                "Design and code should work together beautifully. I'll show you how."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instructor 3 -->
+                <div class="instructor-card bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800">
+                    <div class="h-80 bg-zinc-800 relative">
+                        <img src="https://picsum.photos/id/669/600/800" 
+                             alt="Emmanuel Adeyemi" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-zinc-900 to-transparent h-32"></div>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-2xl font-semibold">Alade Ayodeji </h3>
+                                <p class="text-sky-400">Backend &amp; Devlopers Mentor</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex gap-1 text-amber-400">
+                                    ★★★★☆
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 space-y-4 text-sm">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-briefcase w-5 text-zinc-400"></i>
+                                <span></span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-graduation-cap w-5 text-zinc-400"></i>
+                                <span>Expert in APIs, Databases &amp; Deployment</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-chalkboard-teacher w-5 text-zinc-400"></i>
+                                <span>Helped  students launch their first projects</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 pt-6 border-t border-zinc-800">
+                            <p class="text-zinc-400 text-sm italic">
+                                "From idea to production — I'll teach you how to ship real products."
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    `;
-    chatSpace.appendChild(typingDiv);
-    return typingDiv;
-}
+    </section>
 
-sendBtn.addEventListener('click', handleSend);
-userInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') handleSend();
-});
+    <!-- CTA -->
+    <section class="py-20 bg-black">
+        <div class="max-w-4xl mx-auto text-center px-6">
+            <h2 class="text-4xl font-semibold mb-6">Learn from the best in the industry</h2>
+            <a href="index.html#register" 
+               class="inline-flex items-center gap-3 bg-sky-500 hover:bg-sky-600 text-white font-semibold text-lg px-10 py-5 rounded-3xl transition-colors">
+                SECURE YOUR SPOT IN THE NEXT COHORT
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-zinc-950 py-12 border-t border-zinc-800 text-center text-sm text-zinc-500">
+        <p>© 2026 David Cyber Studio  • All rights reserved</p>
+    </footer>
+
+    <script>
+        // Tailwind script ready
+    </script>
+</body>
+</html>
